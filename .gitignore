@@ -8,6 +8,9 @@
 ##    https://github.com/Nordstrom/chefdk_bootstrap
 
 
+# Ignore Vagrant's machine-specific data
+.vagrant/
+
 ## Ignore Chef related files and secrets
 .chef
 .chef/*.pem
