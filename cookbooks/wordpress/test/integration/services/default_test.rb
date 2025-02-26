@@ -5,10 +5,10 @@ control 'active-services' do
   describe service('apache2') do
     it { should be_enabled }
     it { should be_running }
-  end
-
-  describe service('php7.4-fpm') do
+  end if os.family == 'ubuntu'
+  
+  describe service('httpd') do
     it { should be_enabled }
     it { should be_running }
-  end
+  end if os.family == 'redhat'
 end

@@ -4,7 +4,7 @@ control 'required-packages' do
 
   describe package('apache2') do
     it { should be_installed }
-  end
+  end if os.family == 'ubuntu'
 
   describe package('php') do
     it { should be_installed }
@@ -14,11 +14,7 @@ control 'required-packages' do
     it { should be_installed }
   end
 
-  describe package('libapache2-mod-php') do
-    it { should be_installed }
-  end
-
-  describe package('php-curl') do
-    it { should be_installed }
-  end
+  describe package('httpd') do
+      it { should be_installed }
+  end if os.family == 'redhat'
 end

@@ -9,8 +9,16 @@ verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-18.04
-  # - name: centos-7
+  # - name: centos-8
+  #   driver:
+  #     provision: true
+  #     box: generic/centos8
+  #     vm_hostname: db.vm.com
+  - name: ubuntu-20.04
+    driver:
+      provision: true
+      box: ubuntu/focal64
+      vm_hostname: db.vm.com
 
 suites:
   - name: default

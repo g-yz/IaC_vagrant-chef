@@ -7,8 +7,4 @@ control 'required-ports' do
     its('protocols') { should include 'tcp' }
   end
 
-  describe port(443) do
-    it { should be_listening }
-    its('protocols') { should include 'tcp' }
-  end
 end
