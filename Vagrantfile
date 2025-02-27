@@ -1,85 +1,83 @@
-DB_IP="192.168.56.20"
-WP_IP="192.168.56.10"
-PROXY_IP="192.168.56.2"
-DB_USER='wordpress'
-DB_PWD='admin123'
+# begin
+#     require 'dotenv'
+#     Dotenv.load
+# rescue LoadError
+#     puts "Please install the 'dotenv' gem: 'gem install dotenv'."
+# end  
 
 Vagrant.configure("2") do |config|
-    # config.env.enable              # Enable vagrant-env(.env)
+    vm_db_ip = ENV['DB_IP'] || '192.168.56.20'
+    vm_wp_ip = ENV['WP_IP'] || '192.168.56.10'
+    vm_proxy_ip = ENV['PROXY_IP'] || '192.168.56.2'
+    vm_db_user = ENV['DB_USER'] || 'wordpress'
+    vm_db_pwd = ENV['DB_PWD'] || 'admin123'
+    vm_so_box = ENV['SO_BOX'] || 'ubuntu/focal64'
 
-    if ENV['TESTS'] == 'true'
-        config.vm.define "test" do |testing|
-            testing.vm.box = ENV["BOX_NAME"] || "ubuntu/focal64"  # Use a default Ubuntu 20.04 image
+    config.vm.define "database" do |db|
+        db.vm.box = vm_so_box
+        db.vm.hostname = "db.vm.com"
+        db.vm.network "private_network", ip: vm_db_ip
 
-            testing.vm.provision "shell", inline: <<-SHELL
-                # Install ChefDK
-                wget -qO- https://omnitruck.chef.io/install.sh | sudo bash -s -- -P chefdk
-
-                export CHEF_LICENSE="accept"
-
-                # Install the gems required for testing
-                cd /vagrant/cookbooks/database && chef exec bundle install
-                cd /vagrant/cookbooks/wordpress && chef exec bundle install
-                cd /vagrant/cookbooks/proxy && chef exec bundle install
-
-                chown -R vagrant:vagrant /opt/chefdk
-            SHELL
-        end
-    else
-        config.vm.define "database" do |db|
-            db.vm.box = ENV["BOX_NAME"] || "ubuntu/focal64"  # Use a default Ubuntu 20.04 image
-            db.vm.hostname = "db.vm.com"
-            db.vm.network "private_network", ip: "192.168.56.20"
-
-            db.vm.provision "chef_solo" do |chef|
-                chef.install = "true"
-                chef.arguments = "--chef-license accept"
-                chef.add_recipe "database"
-                chef.json = {
-                    "config" => {
-                        "db_ip" => "192.168.56.20",
-                        "wp_ip" => "192.168.56.10",
-                        "db_user" => "wordpress",
-                        "db_pwd" => "admin123"
-                    }
-                }
-            end
+        db.vm.provider "virtualbox" do |vb|
+            vb.name = "vm_database"
         end
 
-        config.vm.define "wordpress" do |web|
-            web.vm.box = ENV["BOX_NAME"] || "ubuntu/focal64"  # Use a default Ubuntu 20.04 image
-            web.vm.hostname = "wordpress.vm.com"
-            web.vm.network "private_network", ip: "192.168.56.10"
-
-            web.vm.provision "chef_solo" do |chef|
-                chef.install = "true"
-                chef.arguments = "--chef-license accept"
-                chef.add_recipe "wordpress"
-                chef.json = {
-                    "config" => {
-                        "db_ip" => "192.168.56.20",
-                        "db_user" => "wordpress",
-                        "db_pwd" => "admin123"
-                    }
+        db.vm.provision "chef_solo" do |chef|
+            chef.install = "true"
+            chef.arguments = "--chef-license accept"
+            chef.add_recipe "database"
+            chef.json = {
+                "config" => {
+                    "db_ip" => vm_db_ip,
+                    "wp_ip" => vm_wp_ip,
+                    "db_user" => vm_db_user,
+                    "db_pwd" => vm_db_pwd
                 }
-            end
+            }
+        end
+    end
+
+    config.vm.define "wordpress" do |web|
+        web.vm.box = vm_so_box
+        web.vm.hostname = "wordpress.vm.com"
+        web.vm.network "private_network", ip: vm_wp_ip
+
+        web.vm.provider "virtualbox" do |vb|
+            vb.name = "vm_wordpress"
         end
 
-        config.vm.define "proxy" do |proxy|
-            proxy.vm.box = ENV["BOX_NAME"] || "ubuntu/focal64"  # Use a default Ubuntu 20.04 image
-            proxy.vm.hostname = "wordpress.vm.com"
-            proxy.vm.network "private_network", ip: "192.168.56.2"
-
-            proxy.vm.provision "chef_solo" do |chef|
-                chef.install = "true"
-                chef.arguments = "--chef-license accept"
-                chef.add_recipe "proxy"
-                chef.json = {
-                    "config" => {
-                        "wp_ip" => "192.168.56.10"
-                    }
+        web.vm.provision "chef_solo" do |chef|
+            chef.install = "true"
+            chef.arguments = "--chef-license accept"
+            chef.add_recipe "wordpress"
+            chef.json = {
+                "config" => {
+                    "db_ip" => vm_db_ip,
+                    "db_user" => vm_db_user,
+                    "db_pwd" => vm_db_pwd
                 }
-            end
+            }
+        end
+    end
+
+    config.vm.define "proxy" do |proxy|
+        proxy.vm.box = vm_so_box
+        proxy.vm.hostname = "wordpress.vm.com"
+        proxy.vm.network "private_network", ip: vm_proxy_ip
+
+        proxy.vm.provider "virtualbox" do |vb|
+            vb.name = "vm_proxy"
+        end
+
+        proxy.vm.provision "chef_solo" do |chef|
+            chef.install = "true"
+            chef.arguments = "--chef-license accept"
+            chef.add_recipe "proxy"
+            chef.json = {
+                "config" => {
+                    "wp_ip" => vm_wp_ip
+                }
+            }
         end
     end
 end

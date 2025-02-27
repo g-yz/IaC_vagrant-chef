@@ -16,6 +16,12 @@ execute "set_wordpress_permissions" do
     action :nothing
 end
 
+execute 'set permissions for uploads directory recursively' do
+    command 'chmod -R 0777 /opt/wordpress'
+    only_if { ::File.directory?('/opt/wordpress') }
+    action :run
+end
+
 template '/opt/wordpress/wp-config.php' do
     source 'wp-config.php.erb'
     owner 'www-data'
