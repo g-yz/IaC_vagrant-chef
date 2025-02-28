@@ -1,20 +1,61 @@
-# Overview
+# IaC using vagrant and chef
 
-Every Chef Infra installation needs a Chef Repository. This is the place where cookbooks, policyfiles, config files and other artifacts for managing systems with Chef Infra will live. We strongly recommend storing this repository in a version control system such as Git and treating it like source code.
+## Architecture
 
-# Repository Directories
 
-This repository contains several directories, and each directory contains a README file that describes what it is for in greater detail, and how to use it for managing your systems with Chef.
 
-- `cookbooks/` - Cookbooks you download or create.
-- `data_bags/` - Store data bags and items in .json in the repository.
-- `roles/` - Store roles in .rb or .json in the repository.
-- `environments/` - Store environments in .rb or .json in the repository.
+## Requirements
 
-# Configuration
+Requirements to execute this project
+- VirtualBox 7.1
+- Vagrant 2.4.3
 
-The config file, `.chef/config.rb` is a repository-specific configuration file for the knife command line tool. If you're using the Hosted Chef platform, you can download one for your organization from the management console. You can also generate a new config.rb by running `knife configure`. For more information about configuring Knife, see the Knife documentation at https://docs.chef.io/knife.html
+Requirements to test project
+- Ruby 3.2.3
+- Test kitchen
+- Chef
 
-# Next Steps
+### Requirements for executing
 
-Read the README file in each of the subdirectories for more information about what goes in those directories.
+Install Virtual Box
+https://www.virtualbox.org/wiki/Downloads
+```sh
+sudo apt update
+sudo apt install virtualbox
+```
+
+Install Vagrant
+https://developer.hashicorp.com/vagrant/install
+```sh
+wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install vagrant
+```
+
+### Requirements for testing
+
+Install chef (It already contains _Chef_, _Test Kitchen_ and _Inspec_)
+https://community.chef.io/downloads/tools/workstation?os=ubuntu
+
+
+## Execution
+
+### Executing project
+
+Execute
+```sh
+vagrant up
+```
+
+Open
+http://192.168.56.2/wp-admin
+
+### Executing unit tests
+
+```sh
+sudo bash ./UnitTest/tests.sh
+```
+
+### Executing integration tests
+
+kitchen test -p ubuntu-20.04
