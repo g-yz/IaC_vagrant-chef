@@ -26,6 +26,6 @@ end
 
 # Install and activate a WordPress theme (e.g., Astra)
 execute 'Install WordPress theme' do
-  command 'sudo -u vagrant -i -- wp theme install astra --activate --path=/opt/wordpress/'
+  command 'sudo -u vagrant -i -- wp theme install colormag --activate --path=/opt/wordpress/'
   not_if 'wp theme is-active astra', environment: { 'PATH' => '/bin:/usr/bin:/usr/local/bin' }
 end
