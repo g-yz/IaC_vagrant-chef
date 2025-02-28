@@ -11,7 +11,8 @@ Vagrant.configure("2") do |config|
     vm_proxy_ip = ENV['PROXY_IP'] || '192.168.56.2'
     vm_db_user = ENV['DB_USER'] || 'wordpress'
     vm_db_pwd = ENV['DB_PWD'] || 'admin123'
-    vm_so_box = ENV['SO_BOX'] || 'ubuntu/focal64'
+    # vm_so_box = ENV['SO_BOX'] || 'ubuntu/focal64'
+    vm_so_box = ENV['SO_BOX'] || 'almalinux/8'
 
     config.vm.define "database" do |db|
         db.vm.box = vm_so_box

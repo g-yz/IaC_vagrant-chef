@@ -32,6 +32,12 @@ execute 'create_mysql_user' do
     not_if "mysql -e \"SELECT User, Host FROM mysql.user WHERE User = '#{db_user}' AND Host = '#{wp_ip}'\" | grep #{db_user}"
 end
 
+# Ensure firewalld is started before running the commands
+execute 'start-firewalld' do
+    command 'systemctl start firewalld'
+    not_if 'systemctl is-active --quiet firewalld'
+end
+
 execute 'firewall-cmd --zone=public --add-port=3306/tcp --permanent' do
     action :run
 end

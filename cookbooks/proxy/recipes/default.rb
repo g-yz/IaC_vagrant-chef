@@ -35,6 +35,12 @@ when 'rhel', 'fedora'
         action :set
     end
 
+    # Ensure firewalld is started before running the commands
+    execute 'start-firewalld' do
+        command 'systemctl start firewalld'
+        not_if 'systemctl is-active --quiet firewalld'
+    end
+
     execute 'firewall-cmd --zone=public --add-port=80/tcp --permanent' do
         action :run
     end
