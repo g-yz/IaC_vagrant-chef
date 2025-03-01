@@ -9,11 +9,11 @@ verifier:
   name: inspec
 
 platforms:
-  # - name: centos-8
-  #   driver:
-  #     provision: true
-  #     box: generic/centos8
-  #     vm_hostname: db.vm.com
+  - name: almalinux-8
+    driver:
+      provision: true
+      box: almalinux/almalinux8
+      vm_hostname: db.vm.com
   - name: ubuntu-20.04
     driver:
       provision: true
