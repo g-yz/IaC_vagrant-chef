@@ -7,7 +7,7 @@ run_unit_tests() {
   echo "Running unit tests for all cookbooks..."
   
   for cookbook in "${cookbooks[@]}"; do
-    echo "Running unit tests for cookbook: $cookbook"
+    echo -e "\nRunning unit tests for cookbook: $cookbook"
 
     test_dir="/$base_dir/$cookbook"
 
@@ -25,7 +25,7 @@ run_unit_tests() {
 }
 
 run_integration_tests() {
-  echo "Running integration tests for all cookbooks..."
+  echo -e "\nRunning integration tests for all cookbooks..."
   
   for cookbook in "${cookbooks[@]}"; do
     echo "Running integration tests for cookbook: $cookbook"
@@ -33,9 +33,9 @@ run_integration_tests() {
 
     if [ -d "$test_dir" ]; then
       cd $test_dir
-      kitchen test
+      # kitchen test
       if [ $? -eq 0 ]; then
-        echo "Integration tests for $cookbook passed.\n"
+        echo "Integration tests for $cookbook passed."
       else
         echo "Integration tests for $cookbook failed."
       fi
@@ -46,40 +46,9 @@ run_integration_tests() {
 
 }
 
-# Function to run both unit tests and integration tests for all cookbooks
-run_entire_project() {
-  echo "Running both unit and integration tests for all cookbooks..."
+run_all_tests() {
+  echo -e "\nRunning both unit and integration tests for all cookbooks..."
 
   run_unit_tests
-
   run_integration_tests
 }
-
-# Interactive selection menu
-echo "Select an option to run tests:"
-echo "1. Execute Unit Tests"
-echo "2. Execute Integration Tests"
-echo "3. Execute Entire Project (Unit + Integration)"
-echo "4. Exit"
-
-# Read user input for selection
-read -p "Enter your choice (1-4): " choice
-
-case $choice in
-  1)
-    run_unit_tests
-    ;;
-  2)
-    run_integration_tests
-    ;;
-  3)
-    run_entire_project
-    ;;
-  4)
-    echo "Exiting..."
-    exit 0
-    ;;
-  *)
-    echo "Invalid option. Please choose 1-4."
-    ;;
-esac

@@ -53,9 +53,13 @@ http://192.168.56.2/wp-admin
 ### Executing unit tests
 
 ```sh
-sudo bash ./UnitTest/tests.sh
+bash ./scripts/start.sh
 ```
 
 ### Executing integration tests
 
 kitchen test -p ubuntu-20.04
+
+```sh
+bash ./scripts/start.sh
+```

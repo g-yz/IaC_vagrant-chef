@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Function to check if a package is installed on the system and display its version
 check_dependency() {
   local package=$1
   if ! command -v "$package" &> /dev/null; then
@@ -13,7 +12,6 @@ check_dependency() {
   fi
 }
 
-# Function to check if a gem is installed in Chef Workstation and display its version
 check_workstation_dependency() {
   local gem=$1
   if ! chef gem list | grep -q "$gem"; then
@@ -27,39 +25,34 @@ check_workstation_dependency() {
   fi
 }
 
-# Function to validate initial setup dependencies
-validate_initial_deps() {
-  # echo -e "\n[ Initial Setup Dependencies ]"
+validate_initial_dependencies() {
   check_dependency "vagrant" || return 1
   check_dependency "vboxmanage" || return 1
   check_dependency "git" || return 1
 }
 
-# Function to validate unit test dependencies
-validate_unit_test_deps() {
-  # echo -e "\n[ Unit Test Dependencies ]"
-  validate_initial_deps || return 1
+validate_unit_test_dependencies() {
+  validate_initial_dependencies || return 1
   check_dependency "chef-client" || return 1
   check_dependency "inspec" || return 1
   check_workstation_dependency "chefspec" || return 1
   check_workstation_dependency "rspec" || return 1
 }
 
-# Function to validate integration test dependencies
-validate_integration_test_deps() {
-  # echo -e "\n[ Integration Test Dependencies ]"
-  validate_unit_test_deps || return 1
+validate_integration_test_dependencies() {
+  validate_unit_test_dependencies || return 1
   check_dependency "kitchen" || return 1
 }
 
-# Main script execution
-echo "Starting validation...\n"
+validate_all_dependencies()
+{
+  echo -e "\nStarting validation..."
 
-validate_integration_test_deps
+  validate_integration_test_dependencies
 
-# Final result
-if [ $? -eq 0 ]; then
-  echo -e "\nAll dependencies are correctly installed."
-else
-  echo -e "\nSome dependencies are missing or not correctly installed."
-fi
+  if [ $? -eq 0 ]; then
+    echo -e "\nAll dependencies are correctly installed."
+  else
+    echo -e "\nSome dependencies are missing or not correctly installed."
+  fi
+}
