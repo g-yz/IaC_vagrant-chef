@@ -20,5 +20,5 @@ when 'rhel', 'fedora'
         action :run
     end
 
-    include_recipe 'proxy::centos'
+    include_recipe 'proxy::almalinux'
 end

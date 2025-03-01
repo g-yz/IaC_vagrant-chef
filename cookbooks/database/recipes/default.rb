@@ -10,5 +10,5 @@ when 'rhel', 'fedora'
         command "sudo dnf update -y && sudo dnf upgrade -y"
         action :run
     end
-    include_recipe 'database::centos'
+    include_recipe 'database::almalinux'
 end

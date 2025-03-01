@@ -22,8 +22,8 @@ when 'rhel', 'fedora'
         command "sudo dnf update -y && sudo dnf upgrade -y"
         action :run
     end
-    include_recipe 'wordpress::centos_web'    # Install web server
-    include_recipe 'wordpress::centos_wp'     # Install wordpress
+    include_recipe 'wordpress::almalinux_web'    # Install web server
+    include_recipe 'wordpress::almalinux_wp'     # Install wordpress
 end
 
 if node != nil && node['config'] != nil

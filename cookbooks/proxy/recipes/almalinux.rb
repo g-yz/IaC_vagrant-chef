@@ -1,5 +1,5 @@
 template '/etc/nginx/nginx.conf' do
-    source 'centos.conf.erb'
+    source 'almalinux.conf.erb'
     action :create
     notifies :restart, 'service[nginx]', :immediately
 end
