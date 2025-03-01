@@ -13,7 +13,7 @@ describe 'proxy::default' do
             it { is_expected.to create_template('/etc/nginx/nginx.conf') }
             it { is_expected.to start_service('nginx') }
         end
-  end
+    end
 
     context 'on CentOS' do
         let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '8').converge(described_recipe) }
