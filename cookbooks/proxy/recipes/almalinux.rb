@@ -1,3 +1,11 @@
+package 'nginx' do
+    action :install
+end
+
+service 'nginx' do
+    action [:enable, :start]
+end
+
 template '/etc/nginx/nginx.conf' do
     source 'almalinux.conf.erb'
     action :create

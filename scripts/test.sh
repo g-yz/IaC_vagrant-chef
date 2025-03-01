@@ -4,7 +4,7 @@ cookbooks=("database" "wordpress" "proxy")
 base_dir="$(pwd)/cookbooks"
 
 run_unit_tests() {
-  echo "Running unit tests for all cookbooks..."
+  echo -e "\nRunning unit tests for all cookbooks..."
   
   for cookbook in "${cookbooks[@]}"; do
     echo -e "\nRunning unit tests for cookbook: $cookbook"
@@ -28,12 +28,12 @@ run_integration_tests() {
   echo -e "\nRunning integration tests for all cookbooks..."
   
   for cookbook in "${cookbooks[@]}"; do
-    echo "Running integration tests for cookbook: $cookbook"
+    echo -e "\nRunning integration tests for cookbook: $cookbook"
     test_dir="$base_dir/$cookbook"
 
     if [ -d "$test_dir" ]; then
       cd $test_dir
-      # kitchen test
+      kitchen test
       if [ $? -eq 0 ]; then
         echo "Integration tests for $cookbook passed."
       else

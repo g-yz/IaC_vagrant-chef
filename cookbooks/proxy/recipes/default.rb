@@ -1,11 +1,3 @@
-package 'nginx' do
-    action :install
-end
-
-service 'nginx' do
-    action [:enable, :start]
-end
-
 case node['platform_family']
 when 'debian', 'ubuntu'
     execute "update" do
