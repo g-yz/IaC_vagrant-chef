@@ -34,7 +34,6 @@ validate_initial_dependencies() {
 validate_unit_test_dependencies() {
   validate_initial_dependencies || return 1
   check_dependency "chef-client" || return 1
-  check_dependency "inspec" || return 1
   check_workstation_dependency "chefspec" || return 1
   check_workstation_dependency "rspec" || return 1
 }
@@ -42,6 +41,7 @@ validate_unit_test_dependencies() {
 validate_integration_test_dependencies() {
   validate_unit_test_dependencies || return 1
   check_dependency "kitchen" || return 1
+  check_dependency "inspec" || return 1
 }
 
 validate_all_dependencies()

@@ -4,7 +4,7 @@ Vagrant.configure("2") do |config|
     config.vm.define "database" do |db|
         db.vm.box = $vm_so_box
         db.vm.hostname = "db.vm.com"
-        db.vm.network "private_network", ip: vm_db_ip
+        db.vm.network "private_network", ip: $vm_db_ip
 
         db.vm.provider "virtualbox" do |vb|
             vb.name = "vm_database"

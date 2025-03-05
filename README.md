@@ -6,16 +6,20 @@
 
 ## Requirements
 
-Requirements to execute this project
-- VirtualBox 7.1
-- Vagrant 2.4.3
+### Project Execution Requirements
+- *VirtualBox*: 7.1
+- *Vagrant*: 2.4.3
 
-Requirements to test project
-- Ruby 3.2.3
-- Test kitchen
-- Chef
+### Unit Testing Requirements
+- *Chef*: 15.0.300
+- *Chefspec*: 7.3.4
+- *RSpec*: 3.8.0
 
-### Requirements for executing
+### Integration Testing Requirements
+- *Test Kitchen*: 2.2.5
+- *Inspec*: 4.3.2
+
+## Installing requirements
 
 Install Virtual Box
 https://www.virtualbox.org/wiki/Downloads
@@ -32,9 +36,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashi
 sudo apt update && sudo apt install vagrant
 ```
 
-### Requirements for testing
-
-Install chef (It already contains _Chef_, _Test Kitchen_ and _Inspec_)
+Install chef (It already contains _Chef_, _Test Kitchen_, _Inspec_ , _Rspec_ and _ChefSpec_)
 https://community.chef.io/downloads/tools/workstation?os=ubuntu
 
 
@@ -63,16 +65,3 @@ kitchen test -p ubuntu-20.04
 ```sh
 bash ./scripts/start.sh
 ```
-
-# Current versions
-
-✓ vagrant is installed. Version: Vagrant 2.4.3
-✓ vboxmanage is installed. Version: 7.1.6r167084
-✓ git is installed. Version: git version 2.43.0
-✓ chef-client is installed. Version: Chef Infra Client: 15.0.300
-✓ inspec is installed. Version: 4.3.2
-
-Your version of InSpec is out of date! The latest version is 6.8.24.
-✓ chefspec is installed in Chef Workstation. Version: 7.3.4
-✓ rspec is installed in Chef Workstation. Version: 3.8.0
-✓ kitchen is installed. Version: Test Kitchen version 2.2.5
