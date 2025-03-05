@@ -2,7 +2,7 @@
 
 ## Architecture
 
-
+![Architecture](https://drive.google.com/uc?export=view&id=1V0dD5MsBit9WsiGTUJVdRK7iA81di8dt)
 
 ## Requirements
 
